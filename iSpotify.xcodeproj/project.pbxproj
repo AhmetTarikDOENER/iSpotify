@@ -167,8 +167,8 @@
 			children = (
 				45CC17302B765BA6001EA9F1 /* TabBarViewController.swift */,
 				45CC17192B76565C001EA9F1 /* HomeViewController.swift */,
-				45CC17342B765BD9001EA9F1 /* LibraryViewController.swift */,
 				45CC17322B765BC9001EA9F1 /* SearchViewController.swift */,
+				45CC17342B765BD9001EA9F1 /* LibraryViewController.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
