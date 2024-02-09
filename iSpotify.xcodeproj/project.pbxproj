@@ -29,6 +29,7 @@
 		45CC174F2B765D12001EA9F1 /* AudioTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CC174E2B765D12001EA9F1 /* AudioTrack.swift */; };
 		45CC17512B765D1A001EA9F1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CC17502B765D1A001EA9F1 /* Artist.swift */; };
 		45CC17532B765D26001EA9F1 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CC17522B765D26001EA9F1 /* UserProfile.swift */; };
+		45CC17552B767073001EA9F1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CC17542B767073001EA9F1 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		45CC174E2B765D12001EA9F1 /* AudioTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrack.swift; sourceTree = "<group>"; };
 		45CC17502B765D1A001EA9F1 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		45CC17522B765D26001EA9F1 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		45CC17542B767073001EA9F1 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			children = (
 				45CC172F2B765A9A001EA9F1 /* App&SceneDelegates */,
 				45CC171E2B76565D001EA9F1 /* Assets.xcassets */,
+				45CC17542B767073001EA9F1 /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				45CC17162B76565C001EA9F1 /* AppDelegate.swift in Sources */,
 				45CC17352B765BD9001EA9F1 /* LibraryViewController.swift in Sources */,
 				45CC17532B765D26001EA9F1 /* UserProfile.swift in Sources */,
+				45CC17552B767073001EA9F1 /* Extensions.swift in Sources */,
 				45CC17432B765C66001EA9F1 /* PlaylistViewController.swift in Sources */,
 				45CC17512B765D1A001EA9F1 /* Artist.swift in Sources */,
 				45CC17182B76565C001EA9F1 /* SceneDelegate.swift in Sources */,
