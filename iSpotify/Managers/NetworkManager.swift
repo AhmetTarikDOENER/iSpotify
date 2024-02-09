@@ -36,7 +36,7 @@ final class NetworkManager {
                 }
                 do {
                     let result = try JSONDecoder().decode(UserProfile.self, from: data)
-                    print(result)
+                    completion(.success(result))
                 } catch {
                     print(error.localizedDescription)
                     completion(.failure(error))
