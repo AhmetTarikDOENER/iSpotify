@@ -30,8 +30,24 @@ class HomeViewController: UIViewController {
     }
     
     private func fetchData() {
-        NetworkManager.shared.getRecommendedGenres { _ in
-            
+        NetworkManager.shared.getRecommendedGenres { 
+            result in
+            switch result {
+            case .success(let model):
+                let genres = model.genres
+                var seeds = Set<String>()
+                while seeds.count < 5 {
+                    if let random = genres.randomElement() {
+                        seeds.insert(random)
+                    }
+                }
+                NetworkManager.shared.getRecommendations(genres: seeds) {
+                    _ in
+                    
+                }
+            case .failure(let error):
+                break
+            }
         }
     }
 }

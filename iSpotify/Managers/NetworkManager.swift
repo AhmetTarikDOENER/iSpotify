@@ -68,25 +68,25 @@ final class NetworkManager {
             }
     }
     
-//    public func getFeaturedPlaylist(completion: @escaping (Result<FeaturedPlaylistResponse, APIError>) -> Void) {
-//        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=2"), type: .GET) {
-//            request in
-//            let task = URLSession.shared.dataTask(with: request) {
-//                data, _, error in
-//                guard let data, error == nil else {
-//                    completion(.failure(.failedToGetData))
-//                    return
-//                }
-//                do {
-//                    let result = try JSONDecoder().decode(FeaturedPlaylistResponse.self, from: data)
-//                    completion(.success(result))
-//                } catch {
-//                    completion(.failure(.failedToGetData))
-//                }
-//            }
-//            task.resume()
-//        }
-//    }
+    public func getFeaturedPlaylist(completion: @escaping (Result<FeaturedPlaylistResponse, APIError>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=2"), type: .GET) {
+            request in
+            let task = URLSession.shared.dataTask(with: request) {
+                data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(FeaturedPlaylistResponse.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    completion(.failure(.failedToGetData))
+                }
+            }
+            task.resume()
+        }
+    }
     
     public func getRecommendedGenres(completion: @escaping (Result<RecommendedGenresResponse, APIError>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations/available-genre-seeds"), type: .GET) {
@@ -109,8 +109,12 @@ final class NetworkManager {
         }
     }
     
-    public func getRecommendations(completion: @escaping (Result<String, APIError>) -> Void) {
-        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations"), type: .GET) {
+    public func getRecommendations(
+        genres: Set<String>,
+        completion: @escaping (Result<String, APIError>) -> Void
+    ) {
+        let seeds = genres.joined(separator: ",")
+        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?seed_genres=\(seeds)"), type: .GET) {
             request in
             let task = URLSession.shared.dataTask(with: request) {
                 data, _, error in
