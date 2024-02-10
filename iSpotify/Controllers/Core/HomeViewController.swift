@@ -30,14 +30,8 @@ class HomeViewController: UIViewController {
     }
     
     private func fetchData() {
-        NetworkManager.shared.getFeaturedPlaylist {
-            result in
-            switch result {
-            case .success(let success):
-                break
-            case .failure(let failure):
-                break
-            }
+        NetworkManager.shared.getRecommendedGenres { _ in
+            
         }
     }
 }

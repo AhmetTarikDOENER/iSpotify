@@ -10,6 +10,7 @@
 		45C88F0E2B77B6E0007174BB /* NewReleasesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C88F0D2B77B6E0007174BB /* NewReleasesResponse.swift */; };
 		45C88F102B77B884007174BB /* APIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C88F0F2B77B884007174BB /* APIImage.swift */; };
 		45C88F122B77BD0D007174BB /* FeaturedPlaylistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C88F112B77BD0D007174BB /* FeaturedPlaylistResponse.swift */; };
+		45C88F142B77C73D007174BB /* RecommendedGenresResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C88F132B77C73D007174BB /* RecommendedGenresResponse.swift */; };
 		45CC17162B76565C001EA9F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CC17152B76565C001EA9F1 /* AppDelegate.swift */; };
 		45CC17182B76565C001EA9F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CC17172B76565C001EA9F1 /* SceneDelegate.swift */; };
 		45CC171A2B76565C001EA9F1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CC17192B76565C001EA9F1 /* HomeViewController.swift */; };
@@ -42,6 +43,7 @@
 		45C88F0D2B77B6E0007174BB /* NewReleasesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReleasesResponse.swift; sourceTree = "<group>"; };
 		45C88F0F2B77B884007174BB /* APIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIImage.swift; sourceTree = "<group>"; };
 		45C88F112B77BD0D007174BB /* FeaturedPlaylistResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedPlaylistResponse.swift; sourceTree = "<group>"; };
+		45C88F132B77C73D007174BB /* RecommendedGenresResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedGenresResponse.swift; sourceTree = "<group>"; };
 		45CC17122B76565C001EA9F1 /* iSpotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iSpotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45CC17152B76565C001EA9F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		45CC17172B76565C001EA9F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				45C88F0D2B77B6E0007174BB /* NewReleasesResponse.swift */,
 				45C88F0F2B77B884007174BB /* APIImage.swift */,
 				45C88F112B77BD0D007174BB /* FeaturedPlaylistResponse.swift */,
+				45C88F132B77C73D007174BB /* RecommendedGenresResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				45CC17492B765CE6001EA9F1 /* NetworkManager.swift in Sources */,
 				45CC17452B765C75001EA9F1 /* SearchResultViewController.swift in Sources */,
 				45CC173D2B765C3B001EA9F1 /* SettingsViewController.swift in Sources */,
+				45C88F142B77C73D007174BB /* RecommendedGenresResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
