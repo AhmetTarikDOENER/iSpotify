@@ -32,6 +32,9 @@ class TabBarViewController: UITabBarController {
         homeNavVC.navigationBar.prefersLargeTitles = true
         searchNavVC.navigationBar.prefersLargeTitles = true
         libraryNavVC.navigationBar.prefersLargeTitles = true
+        homeNavVC.navigationBar.tintColor = .label
+        searchNavVC.navigationBar.tintColor = .label
+        libraryNavVC.navigationBar.tintColor = .label
         
         homeNavVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 1)
         searchNavVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 2)
