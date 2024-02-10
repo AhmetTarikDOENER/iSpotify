@@ -111,10 +111,10 @@ final class NetworkManager {
     
     public func getRecommendations(
         genres: Set<String>,
-        completion: @escaping (Result<String, APIError>) -> Void
+        completion: @escaping (Result<RecommendationsResponse, APIError>) -> Void
     ) {
         let seeds = genres.joined(separator: ",")
-        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?seed_genres=\(seeds)"), type: .GET) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?limit=40&seed_genres=\(seeds)"), type: .GET) {
             request in
             let task = URLSession.shared.dataTask(with: request) {
                 data, _, error in
@@ -123,8 +123,8 @@ final class NetworkManager {
                     return
                 }
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    print("json: \(json)")
+                    let result = try JSONDecoder().decode(RecommendationsResponse.self, from: data)
+                    completion(.success(result))
                 } catch {
                     completion(.failure(.failedToGetData))
                     print(error)
