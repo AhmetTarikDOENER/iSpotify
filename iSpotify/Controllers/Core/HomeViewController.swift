@@ -11,6 +11,7 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Browse"
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "gear"),
@@ -18,6 +19,7 @@ class HomeViewController: UIViewController {
             target: self,
             action: #selector(didTapSettings)
         )
+        fetchData()
     }
     
     @objc private func didTapSettings() {
@@ -25,6 +27,18 @@ class HomeViewController: UIViewController {
         vc.title = "Settings"
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func fetchData() {
+        NetworkManager.shared.getFeaturedPlaylist {
+            result in
+            switch result {
+            case .success(let success):
+                break
+            case .failure(let failure):
+                break
+            }
+        }
     }
 }
 

@@ -46,6 +46,48 @@ final class NetworkManager {
         }
     }
     
+    public func getNewReleases(completion: @escaping (Result<NewReleasesResponse, APIError>) -> Void) {
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/browse/new-releases?limit=50"),
+            type: .GET) {
+                request in
+                let task = URLSession.shared.dataTask(with: request) {
+                    [weak self] data, _, error in
+                    guard let data, error == nil else {
+                        completion(.failure(.failedToGetData))
+                        return
+                    }
+                    do {
+                        let result = try JSONDecoder().decode(NewReleasesResponse.self, from: data)
+                        completion(.success(result))
+                    } catch {
+                        completion(.failure(.failedToGetData))
+                    }
+                }
+                task.resume()
+            }
+    }
+    
+    public func getFeaturedPlaylist(completion: @escaping (Result<FeaturedPlaylistResponse, APIError>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=2"), type: .GET) {
+            request in
+            let task = URLSession.shared.dataTask(with: request) {
+                [weak self] data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(FeaturedPlaylistResponse.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    completion(.failure(.failedToGetData))
+                }
+            }
+            task.resume()
+        }
+    }
+    
     private func createRequest(
         with url: URL?,
         type: HTTPMethod,
