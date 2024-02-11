@@ -25,6 +25,20 @@ final class NetworkManager {
         case failedToGetData
     }
     
+    public func getAlbumDetails(
+        for album: Album,
+        completion: @escaping (Result<String, APIError>) -> Void
+    ) {
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/albums/" + album.id),
+            type: .GET
+        ) {
+            request in
+            
+        }
+    }
+    
+    //MARK: - Profile
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/me"), type: .GET) {
             baseRequest in
@@ -46,6 +60,7 @@ final class NetworkManager {
         }
     }
     
+    //MARK: - Browse
     public func getNewReleases(completion: @escaping (Result<NewReleasesResponse, APIError>) -> Void) {
         createRequest(
             with: URL(string: Constants.baseAPIURL + "/browse/new-releases?limit=50"),

@@ -1,18 +1,18 @@
 //
-//  PlaylistViewController.swift
+//  AlbumViewController.swift
 //  iSpotify
 //
-//  Created by Ahmet Tarik DÖNER on 9.02.2024.
+//  Created by Ahmet Tarik DÖNER on 11.02.2024.
 //
 
 import UIKit
 
-class PlaylistViewController: UIViewController {
+class AlbumViewController: UIViewController {
 
-    private let playlist: Playlist
+    private let album: Album
     
-    init(playlist: Playlist) {
-        self.playlist = playlist
+    init(album: Album) {
+        self.album = album
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -22,7 +22,7 @@ class PlaylistViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = playlist.name
+        title = album.name
         view.backgroundColor = .systemBackground
     }
 }
