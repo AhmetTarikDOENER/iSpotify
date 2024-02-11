@@ -11,6 +11,17 @@ enum BrowseSectionType {
     case newReleases(viewModels: [NewReleasesCellViewModel])
     case featuredPlaylists(viewModels: [FeaturedPlaylistCellViewModel])
     case recommendedTracks(viewModels: [RecommendedTrackCellViewModel])
+    
+    var title: String {
+        switch self {
+        case .newReleases:
+            "New Released Albums"
+        case .featuredPlaylists:
+            "Featured Playlists"
+        case .recommendedTracks:
+            "Recommended"
+        }
+    }
 }
 
 class HomeViewController: UIViewController {
@@ -79,6 +90,11 @@ class HomeViewController: UIViewController {
         collectionView.register(
             RecommendedTrackCollectionViewCell.self,
             forCellWithReuseIdentifier: RecommendedTrackCollectionViewCell.identifier
+        )
+        collectionView.register(
+            TitleHeaderCollectionReusableView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: TitleHeaderCollectionReusableView.identifier
         )
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -260,6 +276,20 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: TitleHeaderCollectionReusableView.identifier,
+            for: indexPath
+        ) as? TitleHeaderCollectionReusableView, kind == UICollectionView.elementKindSectionHeader else {
+            return UICollectionReusableView()
+        }
+        let section = indexPath.section
+        let title = sections[section].title
+        header.configure(with: title)
+        return header
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let section = sections[indexPath.section]
@@ -282,6 +312,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     private static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
+        let supplementaryViews = [
+            NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .absolute(50)
+                ),
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+        ]
         switch section {
         case 0:
             let item = NSCollectionLayoutItem(
@@ -316,6 +356,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             )
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .groupPaging
+            section.boundarySupplementaryItems = supplementaryViews
             
             return section
         case 1:
@@ -351,6 +392,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             )
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuous
+            section.boundarySupplementaryItems = supplementaryViews
             
             return section
         case 2:
@@ -376,6 +418,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 count: 1
             )
             let section = NSCollectionLayoutSection(group: group)
+            section.boundarySupplementaryItems = supplementaryViews
             
             return section
         default:
@@ -401,6 +444,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 count: 1
             )
             let section = NSCollectionLayoutSection(group: group)
+            
             return section
         }
     }
