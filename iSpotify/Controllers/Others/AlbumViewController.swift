@@ -11,7 +11,7 @@ class AlbumViewController: UIViewController {
     
     private let album: Album
     
-    private var viewModels = [RecommendedTrackCellViewModel]()
+    private var viewModels = [AlbumCollectionViewCellViewModel]()
     
     private let collectionView = UICollectionView(
         frame: .zero,
@@ -67,8 +67,8 @@ class AlbumViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubviews(collectionView)
         collectionView.register(
-            RecommendedTrackCollectionViewCell.self,
-            forCellWithReuseIdentifier: RecommendedTrackCollectionViewCell.identifier
+            AlbumTrackCollectionViewCell.self,
+            forCellWithReuseIdentifier: AlbumTrackCollectionViewCell.identifier
         )
         collectionView.register(
             PlaylistHeaderCollectionReusableView.self,
@@ -86,8 +86,7 @@ class AlbumViewController: UIViewController {
                     self?.viewModels = model.tracks.items.compactMap {
                         .init(
                             name: $0.name,
-                            artistName: $0.artists.first?.name ?? "-",
-                            artworkURL: URL(string: $0.album?.images.first?.url ?? "")
+                            artistName: $0.artists.first?.name ?? "-"
                         )
                     }
                     self?.collectionView.reloadData()
@@ -119,9 +118,9 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: RecommendedTrackCollectionViewCell.identifier,
+            withReuseIdentifier: AlbumTrackCollectionViewCell.identifier,
             for: indexPath
-        ) as? RecommendedTrackCollectionViewCell else {
+        ) as? AlbumTrackCollectionViewCell else {
             return UICollectionViewCell()
         }
         cell.configure(with: viewModels[indexPath.row])
@@ -140,7 +139,7 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let headerViewModel = PlaylistHeaderViewViewModel(
             name: album.name,
             ownerName: album.artists.first?.name,
-            description: "Released Date: \(album.release_date)",
+            description: "Released Date: \(String.formattedDate(string: album.release_date))",
             artworkURL: URL(string: album.images.first?.url ?? "")
         )
         header.configure(with: headerViewModel)

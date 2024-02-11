@@ -43,7 +43,6 @@ final class NetworkManager {
                 }
                 do {
                     let result = try JSONDecoder().decode(AlbumDetailsResponse.self, from: data)
-                    print(result)
                     completion(.success(result))
                 } catch {
                     completion(.failure(.failedToGetData))
