@@ -226,9 +226,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? NewReleaseCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let viewModel = viewModels[indexPath.row]
-            cell.configure(with: viewModel)
-            
+            cell.configure(with: viewModels[indexPath.row])
             return cell
         case .featuredPlaylists(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(
@@ -246,7 +244,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? RecommendedTrackCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.backgroundColor = .orange
+            cell.configure(with: viewModels[indexPath.row])
             return cell
         }
     }
