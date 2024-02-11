@@ -24,5 +24,8 @@ class PlaylistViewController: UIViewController {
         super.viewDidLoad()
         title = playlist.name
         view.backgroundColor = .systemBackground
+        NetworkManager.shared.getPlaylistDetails(for: playlist) { _ in
+            
+        }
     }
 }

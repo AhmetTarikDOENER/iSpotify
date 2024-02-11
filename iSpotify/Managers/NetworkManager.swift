@@ -47,7 +47,33 @@ final class NetworkManager {
                     completion(.success(result))
                 } catch {
                     completion(.failure(.failedToGetData))
-                    print(error.localizedDescription)
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    //MARK: - Get Playlist
+    public func getPlaylistDetails(
+        for playlist: Playlist,
+        completion: @escaping (Result<PlaylistDetailsResponse, APIError>) -> Void
+    ) {
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/playlists/" + playlist.id),
+            type: .GET
+        ) {
+            request in
+            let task = URLSession.shared.dataTask(with: request) {
+                data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(PlaylistDetailsResponse.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    completion(.failure(.failedToGetData))
                 }
             }
             task.resume()
@@ -68,7 +94,6 @@ final class NetworkManager {
                     let result = try JSONDecoder().decode(UserProfile.self, from: data)
                     completion(.success(result))
                 } catch {
-                    print(error.localizedDescription)
                     completion(.failure(error))
                 }
             }
