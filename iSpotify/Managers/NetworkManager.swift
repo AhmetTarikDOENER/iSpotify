@@ -25,20 +25,36 @@ final class NetworkManager {
         case failedToGetData
     }
     
+    //MARK: - Get Albums
     public func getAlbumDetails(
         for album: Album,
-        completion: @escaping (Result<String, APIError>) -> Void
+        completion: @escaping (Result<AlbumDetailsResponse, APIError>) -> Void
     ) {
         createRequest(
             with: URL(string: Constants.baseAPIURL + "/albums/" + album.id),
             type: .GET
         ) {
             request in
-            
+            let task = URLSession.shared.dataTask(with: request) {
+                data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(AlbumDetailsResponse.self, from: data)
+                    print(result)
+                    completion(.success(result))
+                } catch {
+                    completion(.failure(.failedToGetData))
+                    print(error.localizedDescription)
+                }
+            }
+            task.resume()
         }
     }
     
-    //MARK: - Profile
+    //MARK: - Get Profile
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/me"), type: .GET) {
             baseRequest in
@@ -60,7 +76,7 @@ final class NetworkManager {
         }
     }
     
-    //MARK: - Browse
+    //MARK: - Get Browse
     public func getNewReleases(completion: @escaping (Result<NewReleasesResponse, APIError>) -> Void) {
         createRequest(
             with: URL(string: Constants.baseAPIURL + "/browse/new-releases?limit=50"),
@@ -147,7 +163,7 @@ final class NetworkManager {
             task.resume()
         }
     }
-    
+    //MARK: - Request
     private func createRequest(
         with url: URL?,
         type: HTTPMethod,
