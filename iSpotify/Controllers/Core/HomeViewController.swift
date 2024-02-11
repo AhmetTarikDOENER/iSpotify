@@ -83,6 +83,7 @@ class HomeViewController: UIViewController {
     
     private func configureModels(newAlbums: [Album], playlists: [Playlist], tracks: [AudioTrack]) {
         // Configure Models
+        print("Appended new releases")
         sections.append(
             .newReleases(
                 viewModels: newAlbums.compactMap {
@@ -101,6 +102,7 @@ class HomeViewController: UIViewController {
     }
 
     private func fetchData() {
+        print("Started fetching datas")
         let group = DispatchGroup()
         group.enter()
         group.enter()
@@ -193,7 +195,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        sections.count
+        return sections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -207,7 +209,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return UICollectionViewCell()
             }
             let viewModel = viewModels[indexPath.row]
-            cell.backgroundColor = .red
+            cell.configure(with: viewModel)
+            
             return cell
         case .featuredPlaylists(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(
