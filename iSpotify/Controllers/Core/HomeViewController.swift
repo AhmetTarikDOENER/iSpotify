@@ -9,8 +9,8 @@ import UIKit
 
 enum BrowseSectionType {
     case newReleases(viewModels: [NewReleasesCellViewModel])
-    case featuredPlaylists(viewModels: [NewReleasesCellViewModel])
-    case recommendedTracks(viewModels: [NewReleasesCellViewModel])
+    case featuredPlaylists(viewModels: [FeaturedPlaylistCellViewModel])
+    case recommendedTracks(viewModels: [RecommendedTrackCellViewModel])
 }
 
 class HomeViewController: UIViewController {
@@ -83,7 +83,6 @@ class HomeViewController: UIViewController {
     
     private func configureModels(newAlbums: [Album], playlists: [Playlist], tracks: [AudioTrack]) {
         // Configure Models
-        print("Appended new releases")
         sections.append(
             .newReleases(
                 viewModels: newAlbums.compactMap {
@@ -96,13 +95,32 @@ class HomeViewController: UIViewController {
                 }
             )
         )
-        sections.append(.featuredPlaylists(viewModels: []))
-        sections.append(.recommendedTracks(viewModels: []))
+        sections.append(
+            .featuredPlaylists(
+                viewModels: playlists.compactMap {
+                    FeaturedPlaylistCellViewModel.init(
+                        name: $0.name,
+                        artworkURL: URL(string: $0.images.first?.url ?? ""),
+                        creatorName: $0.owner.display_name
+                    )
+                }
+            )
+        )
+        sections.append(
+            .recommendedTracks(
+                viewModels: tracks.compactMap {
+                    .init(
+                        name: $0.name,
+                        artistName: $0.artists.first?.name ?? "-",
+                        artworkURL: URL(string: $0.album.images.first?.url ?? "")
+                    )
+                }
+            )
+        )
         collectionView.reloadData()
     }
 
     private func fetchData() {
-        print("Started fetching datas")
         let group = DispatchGroup()
         group.enter()
         group.enter()
@@ -219,7 +237,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? FeaturedPlaylistCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.backgroundColor = .yellow
+            cell.configure(with: viewModels[indexPath.row])
             return cell
         case .recommendedTracks(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(

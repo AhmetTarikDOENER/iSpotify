@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45A9A5402B79189F00BCC405 /* FeaturedPlaylistCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A9A53F2B79189F00BCC405 /* FeaturedPlaylistCellViewModel.swift */; };
+		45A9A5422B7918DA00BCC405 /* RecommendedTrackCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A9A5412B7918DA00BCC405 /* RecommendedTrackCellViewModel.swift */; };
 		45C88F0E2B77B6E0007174BB /* NewReleasesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C88F0D2B77B6E0007174BB /* NewReleasesResponse.swift */; };
 		45C88F102B77B884007174BB /* APIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C88F0F2B77B884007174BB /* APIImage.swift */; };
 		45C88F122B77BD0D007174BB /* FeaturedPlaylistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C88F112B77BD0D007174BB /* FeaturedPlaylistResponse.swift */; };
@@ -45,6 +47,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		45A9A53F2B79189F00BCC405 /* FeaturedPlaylistCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedPlaylistCellViewModel.swift; sourceTree = "<group>"; };
+		45A9A5412B7918DA00BCC405 /* RecommendedTrackCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedTrackCellViewModel.swift; sourceTree = "<group>"; };
 		45C88F0D2B77B6E0007174BB /* NewReleasesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReleasesResponse.swift; sourceTree = "<group>"; };
 		45C88F0F2B77B884007174BB /* APIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIImage.swift; sourceTree = "<group>"; };
 		45C88F112B77BD0D007174BB /* FeaturedPlaylistResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedPlaylistResponse.swift; sourceTree = "<group>"; };
@@ -175,6 +179,8 @@
 			isa = PBXGroup;
 			children = (
 				45C88F1E2B78067C007174BB /* NewReleasesCellViewModel.swift */,
+				45A9A53F2B79189F00BCC405 /* FeaturedPlaylistCellViewModel.swift */,
+				45A9A5412B7918DA00BCC405 /* RecommendedTrackCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -313,7 +319,9 @@
 				45CC174D2B765D06001EA9F1 /* Playlist.swift in Sources */,
 				45CC17472B765CD2001EA9F1 /* AuthManager.swift in Sources */,
 				45C88F1F2B78067C007174BB /* NewReleasesCellViewModel.swift in Sources */,
+				45A9A5422B7918DA00BCC405 /* RecommendedTrackCellViewModel.swift in Sources */,
 				45CC173B2B765C25001EA9F1 /* WelcomeViewController.swift in Sources */,
+				45A9A5402B79189F00BCC405 /* FeaturedPlaylistCellViewModel.swift in Sources */,
 				45C88F122B77BD0D007174BB /* FeaturedPlaylistResponse.swift in Sources */,
 				45CC173F2B765C45001EA9F1 /* ProfileViewController.swift in Sources */,
 				45CC17312B765BA6001EA9F1 /* TabBarViewController.swift in Sources */,

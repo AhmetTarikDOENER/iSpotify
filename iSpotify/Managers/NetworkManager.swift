@@ -69,7 +69,7 @@ final class NetworkManager {
     }
     
     public func getFeaturedPlaylist(completion: @escaping (Result<FeaturedPlaylistResponse, APIError>) -> Void) {
-        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=2"), type: .GET) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=30"), type: .GET) {
             request in
             let task = URLSession.shared.dataTask(with: request) {
                 data, _, error in
