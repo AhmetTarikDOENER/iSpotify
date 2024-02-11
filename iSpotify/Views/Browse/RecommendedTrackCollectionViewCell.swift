@@ -28,7 +28,8 @@ class RecommendedTrackCollectionViewCell: UICollectionViewCell {
     
     private let artistNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.textColor = .secondaryLabel
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.numberOfLines = 0
         
         return label
