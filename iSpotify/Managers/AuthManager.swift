@@ -84,7 +84,6 @@ final class AuthManager {
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
                 self?.cacheToken(result: result)
-                print("Success: \(result)")
                 completion(true)
             } catch {
                 completion(false)
