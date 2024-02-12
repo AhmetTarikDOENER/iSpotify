@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class CategoryCollectionViewCell: UICollectionViewCell {
     
@@ -16,6 +17,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .white
         imageView.image = UIImage(systemName: "music.quarternote.3", withConfiguration: UIImage.SymbolConfiguration(pointSize: 50, weight: .regular))
+
         
         return imageView
     }()
@@ -42,7 +44,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         genresLabel.text = nil
-        genresImageView.image = nil
+        genresImageView.image = UIImage(systemName: "music.quarternote.3", withConfiguration: UIImage.SymbolConfiguration(pointSize: 50, weight: .regular))
     }
     
     override func layoutSubviews() {
@@ -55,7 +57,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         )
         genresImageView.frame = CGRect(
             x: contentView.width / 2,
-            y: 0,
+            y: 10,
             width: contentView.width / 2,
             height: contentView.height / 2
         )
@@ -63,11 +65,13 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     private let colors: [UIColor] = [
         .systemRed, .systemBlue, .systemGreen, .systemPink, .systemCyan,
-        .systemIndigo, .systemPurple, .systemYellow
+        .systemIndigo, .systemPurple, .systemYellow, .systemOrange, .systemGray,
+        .systemMint, .systemTeal, .systemRed, .systemGray6, .secondarySystemFill, .tertiarySystemBackground, UIColor.magenta, UIColor.brown
     ]
     
-    func configure(with title: String) {
-        genresLabel.text = title
+    func configure(with viewModel: CategoryCollectionViewCellViewModel) {
+        genresLabel.text = viewModel.title
+        genresImageView.sd_setImage(with: viewModel.artworkURL)
         contentView.backgroundColor = colors.randomElement()
     }
 }
