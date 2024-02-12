@@ -28,7 +28,7 @@ final class NetworkManager {
     //MARK: - Search
     public func search(
         with query: String,
-        completion: @escaping (Result<[String], APIError>) -> Void
+        completion: @escaping (Result<[SearchResult], APIError>) -> Void
     ) {
         createRequest(
             with: URL(string: Constants.baseAPIURL + "/search?limit=10&type=album,artist,playlist,track&q=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"),
@@ -43,11 +43,15 @@ final class NetworkManager {
                     return
                 }
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    print(json)
+                    let result = try JSONDecoder().decode(SearchResultResponse.self, from: data)
+                    var searchResults: [SearchResult] = []
+                    searchResults.append(contentsOf: result.tracks.items.compactMap { .track(model: $0)})
+                    searchResults.append(contentsOf: result.albums.items.compactMap { .album(model: $0)})
+                    searchResults.append(contentsOf: result.artists.items.compactMap { .artist(model: $0)})
+                    searchResults.append(contentsOf: result.playlists.items.compactMap { .playlist(model: $0)})
+                    completion(.success(searchResults))
                 } catch {
                     completion(.failure(.failedToGetData))
-                    print(error.localizedDescription)
                 }
             }
             task.resume()

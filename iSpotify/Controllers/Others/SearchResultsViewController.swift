@@ -9,9 +9,19 @@ import UIKit
 
 class SearchResultsViewController: UIViewController {
 
+    private var results: [SearchResult] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .clear
     }
-
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+    }
+    
+    func update(with results: [SearchResult]) {
+        self.results = results
+    }
 }

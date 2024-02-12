@@ -129,7 +129,7 @@ extension SearchViewController: UISearchBarDelegate {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let result):
-                    break
+                    resultsController.update(with: results)
                 case .failure(let error):
                     print(error)
                 }
