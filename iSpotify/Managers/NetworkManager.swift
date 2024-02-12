@@ -54,7 +54,7 @@ final class NetworkManager {
         completion: @escaping (Result<[Playlist], APIError>) -> Void
     ) {
         createRequest(
-            with: URL(string: Constants.baseAPIURL + "/browse/categories/\(category.id)/playlists?limit=2"),
+            with: URL(string: Constants.baseAPIURL + "/browse/categories/\(category.id)/playlists?limit=50"),
             type: .GET
         ) {
             request in
