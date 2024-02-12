@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GenresCollectionViewCell: UICollectionViewCell {
+class CategoryCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "GenresCollectionViewCell"
     

@@ -25,6 +25,57 @@ final class NetworkManager {
         case failedToGetData
     }
     
+    //MARK: - Get Categories
+    public func getCategories(completion: @escaping (Result<[Category], APIError>) -> Void) {
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/browse/categories?limit=50"),
+            type: .GET
+        ) {
+            request in
+            let task = URLSession.shared.dataTask(with: request) {
+                data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(AllCategoriesResponse.self, from: data)
+                    completion(.success(result.categories.items))
+                } catch {
+                    completion(.failure(.failedToGetData))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    public func getCategoryPlaylist(
+        category: Category,
+        completion: @escaping (Result<[Playlist], APIError>) -> Void
+    ) {
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/browse/categories/\(category.id)/playlists?limit=2"),
+            type: .GET
+        ) {
+            request in
+            let task = URLSession.shared.dataTask(with: request) {
+                data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(CategoryPlaylistResponse.self, from: data)
+                    let playlists = result.playlists.items
+                    completion(.success(playlists))
+                } catch {
+                    completion(.failure(.failedToGetData))
+                }
+            }
+            task.resume()
+        }
+    }
+    
     //MARK: - Get Albums
     public func getAlbumDetails(
         for album: Album,

@@ -37,17 +37,31 @@ class SearchViewController: UIViewController {
         })
     )
     
+    private var categories = [Category]()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubviews(collectionView)
-        collectionView.register(GenresCollectionViewCell.self, forCellWithReuseIdentifier: GenresCollectionViewCell.identifier)
+        collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .systemBackground
         searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
+        NetworkManager.shared.getCategories {
+            [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let categories):
+                    self?.categories = categories
+                    self?.collectionView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,17 +93,18 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        20
+        categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: GenresCollectionViewCell.identifier,
+            withReuseIdentifier: CategoryCollectionViewCell.identifier,
             for: indexPath
-        ) as? GenresCollectionViewCell else {
+        ) as? CategoryCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.configure(with: "Rock&Roll")
+        let category = categories[indexPath.row]
+        cell.configure(with: category.name)
         
         return cell
     }
