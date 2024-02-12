@@ -49,6 +49,7 @@ class SearchViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.backgroundColor = .systemBackground
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         NetworkManager.shared.getCategories {
             [weak self] result in
@@ -74,14 +75,6 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard let resultsController = searchController.searchResultsController as? SearchResultsViewController,
-              let query = searchController.searchBar.text,
-              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            return
-        }
-        // resultsController.update(with: results)
-        print(query)
-        // Perform search
         
     }
 }
@@ -119,5 +112,28 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let vc = CategoryViewController(category: category)
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let resultsController = searchController.searchResultsController as? SearchResultsViewController,
+              let query = searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        
+        NetworkManager.shared.search(with: query) {
+            result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let result):
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
 }
