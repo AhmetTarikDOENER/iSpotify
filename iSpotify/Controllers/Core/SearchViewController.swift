@@ -124,16 +124,37 @@ extension SearchViewController: UISearchBarDelegate {
             return
         }
         
+        resultsController.delegate = self
+        
         NetworkManager.shared.search(with: query) {
             result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let result):
-                    resultsController.update(with: results)
+                    resultsController.update(with: result)
                 case .failure(let error):
                     print(error)
                 }
             }
+        }
+    }
+}
+
+extension SearchViewController: SearchResultsViewControllerDelegate {
+    func didTapResult(_ result: SearchResult) {
+        switch result {
+        case .artist(let model):
+            break
+        case .album(let model):
+            let vc = AlbumViewController(album: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        case .track(let model):
+            break
+        case .playlist(let model):
+            let vc = PlaylistViewController(playlist: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
