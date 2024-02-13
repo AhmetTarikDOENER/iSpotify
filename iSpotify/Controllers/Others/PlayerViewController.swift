@@ -86,6 +86,10 @@ class PlayerViewController: UIViewController {
     @objc private func didTapActionButton() {
         // Add action
     }
+    
+    func refreshUI() {
+        configure()
+    }
 }
 
 //MARK: - PlayerControlsViewDelegate
