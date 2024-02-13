@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import SDWebImage
 
 class PlayerViewController: UIViewController {
 
+    weak var dataSource: PlayerDataSource?
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .systemCyan
+//        imageView.backgroundColor = .systemCyan
         imageView.contentMode = .scaleAspectFill
         
         return imageView
@@ -26,6 +29,7 @@ class PlayerViewController: UIViewController {
         view.addSubviews(imageView, controlsView)
         controlsView.delegate = self
         configureBarButtons()
+        configure()
     }
     
     override func viewDidLayoutSubviews() {
@@ -45,6 +49,10 @@ class PlayerViewController: UIViewController {
     }
     
     //MARK: - Private
+    private func configure() {
+        imageView.sd_setImage(with: dataSource?.imageURL)
+    }
+    
     private func configureBarButtons() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
