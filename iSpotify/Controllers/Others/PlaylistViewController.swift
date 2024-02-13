@@ -10,6 +10,7 @@ import UIKit
 class PlaylistViewController: UIViewController {
 
     private let playlist: Playlist
+    private var tracks = [AudioTrack]()
     private var viewModels = [RecommendedTrackCellViewModel]()
     
     private let collectionView = UICollectionView(
@@ -86,6 +87,7 @@ class PlaylistViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
+                    self?.tracks = model.tracks.items.compactMap { $0.track }
                     self?.viewModels = model.tracks.items.compactMap {
                         .init(
                             name: $0.track.name,
@@ -125,6 +127,7 @@ class PlaylistViewController: UIViewController {
     }
 }
 
+//MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -171,13 +174,15 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
+        let index = indexPath.row
+        let track = tracks[index]
+        PlaybackPresenter.startPlayback(from: self, track: track)
     }
 }
 
+//MARK: - PlaylistHeaderCollectionReusableViewDelegate
 extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func playlistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
-        // Start playlist play in queue
-        print("Playing all")
+        PlaybackPresenter.startPlayback(from: self, tracks: tracks)
     }
 }
