@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 protocol PlayerDataSource: AnyObject {
     var songName: String? { get }
@@ -21,6 +22,8 @@ final class PlaybackPresenter {
     private var track: AudioTrack?
     private var tracks = [AudioTrack]()
     
+    var player: AVPlayer?
+    
     var currentTrack: AudioTrack? {
         if let track = track, tracks.isEmpty {
             return track
@@ -34,12 +37,19 @@ final class PlaybackPresenter {
         from viewController: UIViewController,
         track: AudioTrack
     ) {
+        guard let url = URL(string: track.preview_url ?? "") else { return }
+        player = AVPlayer(url: url)
+        player?.volume = 0.1
         self.track = track
         self.tracks = []
         let vc = PlayerViewController()
         vc.title = track.name
         vc.dataSource = self
-        viewController.present(UINavigationController(rootViewController: vc), animated: true)
+        vc.delegate = self
+        viewController.present(UINavigationController(rootViewController: vc), animated: true) {
+            [weak self] in
+            self?.player?.play()
+        }
     }
     
     func startPlayback(
@@ -52,6 +62,40 @@ final class PlaybackPresenter {
         viewController.present(UINavigationController(rootViewController: vc), animated: true)
     }
     
+}
+
+extension PlaybackPresenter: PlayerViewControllerDelegate {
+    
+    func didTapPlayPause() {
+        if let player {
+            if player.timeControlStatus == .playing {
+                player.pause()
+            } else if player.timeControlStatus == .paused {
+                player.play()
+            }
+        }
+    }
+    
+    func didTapForward() {
+        if tracks.isEmpty {
+            player?.pause()
+        } else {
+            
+        }
+    }
+    
+    func didTapBackward() {
+        if tracks.isEmpty {
+            player?.pause()
+            player?.play()
+        } else {
+            
+        }
+    }
+    
+    func didSlideSlider(_ value: Float) {
+        player?.volume = value
+    }
 }
 
 //MARK: - PlayerDataSource
