@@ -14,7 +14,8 @@ final class PlaybackPresenter {
         track: AudioTrack
     ) {
         let vc = PlayerViewController()
-        viewController.present(vc, animated: true)
+        vc.title = track.name
+        viewController.present(UINavigationController(rootViewController: vc), animated: true)
     }
     
     static func startPlayback(
@@ -22,6 +23,6 @@ final class PlaybackPresenter {
         tracks: [AudioTrack]
     ) {
         let vc = PlayerViewController()
-        viewController.present(vc, animated: true)
+        viewController.present(UINavigationController(rootViewController: vc), animated: true)
     }
 }
