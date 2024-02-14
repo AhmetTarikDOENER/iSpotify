@@ -189,7 +189,38 @@ final class NetworkManager {
     }
     
     public func createPlaylist(with name: String, completion: @escaping (Bool) -> Void) {
-        
+        getCurrentUserProfile {
+            [weak self] result in
+            switch result {
+            case .success(let profile):
+                let urlString = Constants.baseAPIURL + "/users/\(profile.id)/playlists"
+                self?.createRequest(with: URL(string: urlString), type: .POST) {
+                    baseRequest in
+                    var request = baseRequest
+                    let json = [
+                        "name": name
+                    ]
+                    request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+                    let task = URLSession.shared.dataTask(with: request) {
+                        data, _, error in
+                        guard let data, error == nil else {
+                            completion(false)
+                            return
+                        }
+                        do {
+                            let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                            print(result)
+                        } catch {
+                            completion(false)
+                            print(error.localizedDescription)
+                        }
+                    }
+                    task.resume()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     public func addTrackToPlaylists(
