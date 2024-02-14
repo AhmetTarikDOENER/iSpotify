@@ -209,9 +209,16 @@ final class NetworkManager {
                         }
                         do {
                             let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                            print(result)
+                            if let response = result as? [String: Any],
+                               response["id"] as? String != nil {
+                                print("Created")
+                                completion(true)
+                            } else {
+                                completion(false)
+                            }
                         } catch {
                             completion(false)
+                            print("Failed to get id")
                             print(error.localizedDescription)
                         }
                     }

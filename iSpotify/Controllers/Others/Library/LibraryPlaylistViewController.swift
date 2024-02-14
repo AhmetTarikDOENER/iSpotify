@@ -12,11 +12,22 @@ class LibraryPlaylistViewController: UIViewController {
     var playlists = [Playlist]()
     
     private let noPlaylistsView = ActionLabelView()
+    
+    private let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.register(SearchResultSubtitleTableViewCell.self, forCellReuseIdentifier: SearchResultSubtitleTableViewCell.identifier)
+        tableView.isHidden = true
+        
+        return tableView
+    }()
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
         setupNoPlaylistsView()
         fetchPlaylists()
     }
@@ -25,6 +36,7 @@ class LibraryPlaylistViewController: UIViewController {
         super.viewDidLayoutSubviews()
         noPlaylistsView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
         noPlaylistsView.center = view.center
+        tableView.frame = view.bounds
     }
     
     private func fetchPlaylists() {
@@ -56,15 +68,16 @@ class LibraryPlaylistViewController: UIViewController {
     private func updateUI() {
         if playlists.isEmpty {
             noPlaylistsView.isHidden = false
+            tableView.isHidden = true
         } else {
             // Show tabel
+            tableView.reloadData()
+            noPlaylistsView.isHidden = true
+            tableView.isHidden = false
         }
     }
-}
-
-extension LibraryPlaylistViewController: ActionLabelViewDelegate {
     
-    func actionLabelViewDidTapButton(_ actionView: ActionLabelView) {
+    public func showCreatePlaylistAlert() {
         let alert = UIAlertController(
             title: "New Playlists",
             message: "Enter playlist name",
@@ -92,9 +105,10 @@ extension LibraryPlaylistViewController: ActionLabelViewDelegate {
                         return
                     }
                     NetworkManager.shared.createPlaylist(with: text) {
-                        success in
+                        [weak self] success in
                         if success {
                             // Refresh list of playlists
+                            self?.fetchPlaylists()
                         } else {
                             print("Failed to create playlist.")
                         }
@@ -103,5 +117,38 @@ extension LibraryPlaylistViewController: ActionLabelViewDelegate {
             )
         )
         present(alert, animated: true)
+    }
+}
+
+extension LibraryPlaylistViewController: ActionLabelViewDelegate {
+    
+    func actionLabelViewDidTapButton(_ actionView: ActionLabelView) {
+        showCreatePlaylistAlert()
+    }
+}
+
+extension LibraryPlaylistViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        playlists.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultSubtitleTableViewCell.identifier, for: indexPath) as? SearchResultSubtitleTableViewCell else {
+            return UITableViewCell()
+        }
+        let playlist = playlists[indexPath.row]
+        cell.configure(
+            with: .init(
+                title: playlist.name,
+                subtitle: playlist.owner.display_name,
+                imageURL: URL(string: playlist.images.first?.url ?? "")
+            )
+        )
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        55
     }
 }
