@@ -10,6 +10,7 @@ import UIKit
 class LibraryAlbumsViewController: UIViewController {
     
     var albums = [Album]()
+    private var observer: NSObjectProtocol?
     
     private let noAlbumsView = ActionLabelView()
     
@@ -30,12 +31,21 @@ class LibraryAlbumsViewController: UIViewController {
         tableView.dataSource = self
         setupNoAlbumsView()
         fetchAlbums()
+        observer = NotificationCenter.default.addObserver(
+            forName: .albumSavedNotification,
+            object: nil,
+            queue: .main,
+            using: {
+                [weak self] _ in
+                self?.fetchAlbums()
+            }
+        )
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         noAlbumsView.frame = CGRect(x: (view.width - 150) / 2, y: (view.height - 150) / 2, width: 150, height: 150)
-        tableView.frame = view.bounds
+        tableView.frame = CGRect(x: 0, y: 0, width: view.width, height: view.height)
     }
     
     @objc private func didTapClose() {
@@ -43,11 +53,13 @@ class LibraryAlbumsViewController: UIViewController {
     }
     
     private func fetchAlbums() {
+        albums.removeAll()
         NetworkManager.shared.getCurrentUserAlbums {
             [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let albums):
+                    print(albums)
                     self?.albums = albums
                     self?.updateUI()
                 case .failure(let error):
