@@ -152,7 +152,6 @@ final class NetworkManager {
                 do {
                     let result = try JSONDecoder().decode(LibraryAlbumsResponse.self, from: data)
                     completion(.success(result.items.compactMap { $0.album }))
-                    print(result)
                 } catch {
                     completion(.failure(.failedToGetData))
                     print(error.localizedDescription)
