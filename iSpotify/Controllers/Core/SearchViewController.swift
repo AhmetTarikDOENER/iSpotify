@@ -136,7 +136,7 @@ extension SearchViewController: UISearchBarDelegate {
                 case .success(let result):
                     resultsController.update(with: result)
                 case .failure(let error):
-                    print(error)
+                    print(error.localizedDescription)
                 }
             }
         }

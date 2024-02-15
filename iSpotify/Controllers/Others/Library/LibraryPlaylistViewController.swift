@@ -123,7 +123,7 @@ class LibraryPlaylistViewController: UIViewController {
                             // Refresh list of playlists
                             self?.fetchPlaylists()
                         } else {
-                            print("Failed to create playlist.")
+                            
                         }
                     }
                 }
@@ -171,6 +171,7 @@ extension LibraryPlaylistViewController: UITableViewDelegate, UITableViewDataSou
         }
         let vc = PlaylistViewController(playlist: playlist)
         vc.navigationItem.largeTitleDisplayMode = .never
+        vc.isOwner = true
         navigationController?.pushViewController(vc, animated: true)
     }
     

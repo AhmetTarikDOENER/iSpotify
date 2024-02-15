@@ -70,7 +70,6 @@ final class AuthManager {
         let basicToken = Constants.clientID + ":" + Constants.clientSecret
         let data = basicToken.data(using: .utf8)
         guard let base64String = data?.base64EncodedString() else {
-            print("Failure to get base64")
             completion(false)
             return
         }
@@ -135,7 +134,6 @@ final class AuthManager {
         let basicToken = Constants.clientID + ":" + Constants.clientSecret
         let data = basicToken.data(using: .utf8)
         guard let base64String = data?.base64EncodedString() else {
-            print("Failure to get base64")
             completion?(false)
             return
         }

@@ -13,6 +13,8 @@ class PlaylistViewController: UIViewController {
     private var tracks = [AudioTrack]()
     private var viewModels = [RecommendedTrackCellViewModel]()
     
+    public var isOwner = false
+    
     private let collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: {
@@ -107,11 +109,48 @@ class PlaylistViewController: UIViewController {
             target: self,
             action: #selector(didTapShareButton)
         )
+        
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
+        collectionView.addGestureRecognizer(gesture)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
+    }
+    
+    @objc private func didLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else {
+            return
+        }
+        let touchPoint = gesture.location(in: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: touchPoint) else {
+            return
+        }
+        let trackToDelete = tracks[indexPath.row]
+        
+        let actionSheet = UIAlertController(
+            title: "Remove \(trackToDelete.name)",
+            message: "Would you like to remove this from the playlist?",
+            preferredStyle: .actionSheet
+        )
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        actionSheet.addAction(UIAlertAction(title: "Remove", style: .destructive, handler: {
+            [weak self] _ in
+            guard let strongSelf = self else { return }
+            NetworkManager.shared.removeTrackFromPlaylist(track: trackToDelete, playlist: strongSelf.playlist) {
+                success in
+                DispatchQueue.main.async {
+                    if success {
+                        strongSelf.tracks.remove(at: indexPath.row)
+                        strongSelf.viewModels.remove(at: indexPath.row)
+                        strongSelf.collectionView.reloadData()
+                    }
+                }
+            }
+        }))
+        
+        present(actionSheet, animated: true)
     }
     
     @objc private func didTapShareButton() {

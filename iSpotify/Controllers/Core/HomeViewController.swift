@@ -115,7 +115,6 @@ class HomeViewController: UIViewController {
                                 playlist: playlist
                             ) {
                                 success in
-                                print("Added to playlist successfully \(success)")
                             }
                         }
                         vc.title = "Select Playlist"

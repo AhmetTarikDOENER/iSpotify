@@ -15,6 +15,7 @@ final class NetworkManager {
     enum HTTPMethod: String {
         case GET
         case POST
+        case DELETE
     }
     
     struct Constants {
@@ -35,7 +36,6 @@ final class NetworkManager {
             type: .GET
         ) {
             request in
-            print(request.url?.absoluteString ?? "none")
             let task = URLSession.shared.dataTask(with: request) {
                 data, _, error in
                 guard let data, error == nil else {
@@ -211,14 +211,12 @@ final class NetworkManager {
                             let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                             if let response = result as? [String: Any],
                                response["id"] as? String != nil {
-                                print("Created")
                                 completion(true)
                             } else {
                                 completion(false)
                             }
                         } catch {
                             completion(false)
-                            print("Failed to get id")
                             print(error.localizedDescription)
                         }
                     }
@@ -256,7 +254,6 @@ final class NetworkManager {
                 }
                 do {
                     let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    print(result)
                     if let response = result as? [String: Any],
                         response["snapshot_id"] as? String != nil {
                         completion(true)
@@ -269,7 +266,6 @@ final class NetworkManager {
             }
             task.resume()
         }
-        completion(true)
     }
     
     public func removeTrackFromPlaylist(
@@ -277,7 +273,41 @@ final class NetworkManager {
         playlist: Playlist,
         completion: @escaping (Bool) -> Void
     ) {
-        
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/playlists/\(playlist.id)/tracks"),
+            type: .DELETE
+        ) {
+            baserequest in
+            var request = baserequest
+            let json = [
+                "tracks": [
+                    [
+                        "uri": "spotify:track:\(track.id)"
+                    ]
+                ]
+            ]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            let task = URLSession.shared.dataTask(with: request) {
+                data, _, error in
+                guard let data, error == nil else {
+                    completion(false)
+                    return
+                }
+                do {
+                    let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    if let response = result as? [String: Any],
+                        response["snapshot_id"] as? String != nil {
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                } catch {
+                    completion(false)
+                }
+            }
+            task.resume()
+        }
     }
     
     //MARK: - Get Profile
