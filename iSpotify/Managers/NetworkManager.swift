@@ -136,6 +136,31 @@ final class NetworkManager {
         }
     }
     
+    public func getCurrentUserAlbums(completion: @escaping (Result<[Album], APIError>) -> Void) {
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/me/albums"),
+            type: .GET
+        ) {
+            request in
+            let task = URLSession.shared.dataTask(with: request) {
+                data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                do {
+                    let result = try JSONDecoder().decode(LibraryAlbumsResponse.self, from: data)
+                    completion(.success(result.items))
+                    print(result)
+                } catch {
+                    completion(.failure(.failedToGetData))
+                    print(error.localizedDescription)
+                }
+            }
+            task.resume()
+        }
+    }
+    
     //MARK: - Playlist
     public func getPlaylistDetails(
         for playlist: Playlist,

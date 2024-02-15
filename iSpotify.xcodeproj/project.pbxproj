@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4500C7792B7E6DB600D851A8 /* LibraryAlbumsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4500C7782B7E6DB600D851A8 /* LibraryAlbumsResponse.swift */; };
 		45136E392B7A668A00B8D8A5 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45136E382B7A668A00B8D8A5 /* SearchResultsViewController.swift */; };
 		45136E3B2B7A6B6800B8D8A5 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45136E3A2B7A6B6800B8D8A5 /* CategoryCollectionViewCell.swift */; };
 		45136E3D2B7A76DB00B8D8A5 /* AllCategoriesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45136E3C2B7A76DB00B8D8A5 /* AllCategoriesResponse.swift */; };
@@ -72,6 +73,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4500C7782B7E6DB600D851A8 /* LibraryAlbumsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryAlbumsResponse.swift; sourceTree = "<group>"; };
 		45136E382B7A668A00B8D8A5 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		45136E3A2B7A6B6800B8D8A5 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		45136E3C2B7A76DB00B8D8A5 /* AllCategoriesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesResponse.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				45136E422B7A9E8000B8D8A5 /* SearchResultResponse.swift */,
 				45136E442B7AA08400B8D8A5 /* SearchResult.swift */,
 				45C1B8302B7D4E82001C56ED /* LibraryPlaylistResponse.swift */,
+				4500C7782B7E6DB600D851A8 /* LibraryAlbumsResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				45CC174D2B765D06001EA9F1 /* Playlist.swift in Sources */,
 				45C1B8332B7D511A001C56ED /* ActionLabelView.swift in Sources */,
 				45CC17472B765CD2001EA9F1 /* AuthManager.swift in Sources */,
+				4500C7792B7E6DB600D851A8 /* LibraryAlbumsResponse.swift in Sources */,
 				45C88F1F2B78067C007174BB /* NewReleasesCellViewModel.swift in Sources */,
 				45A9A5522B796C4300BCC405 /* AlbumCollectionViewCellViewModel.swift in Sources */,
 				45A9A5422B7918DA00BCC405 /* RecommendedTrackCellViewModel.swift in Sources */,
